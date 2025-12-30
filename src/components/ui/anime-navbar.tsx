@@ -54,7 +54,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home", theme, t
                     <div className="fixed top-5 left-0 right-0 z-[9999] pointer-events-none">
                         <div className="flex justify-center pt-6">
                             <motion.div
-                                className="flex items-center gap-3 bg-white/50 dark:bg-black/50 border border-black/10 dark:border-white/10 backdrop-blur-lg py-2 px-2 rounded-full shadow-lg relative pointer-events-auto"
+                                className="flex items-center gap-1 md:gap-3 bg-white/50 dark:bg-black/50 border border-black/10 dark:border-white/10 backdrop-blur-lg py-2 px-1 md:px-2 rounded-full shadow-lg relative pointer-events-auto"
                                 initial={{ y: -100, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -100, opacity: 0 }}
@@ -65,8 +65,8 @@ export function AnimeNavBar({ items, className, defaultActive = "Home", theme, t
                                 }}
                             >
                                 {/* Brand Pill */}
-                                <div className="pl-2 pr-4 mr-2 border-r border-black/10 dark:border-white/10">
-                                    <div className="bg-transparent hover:bg-transparent text-black dark:text-white px-4 py-1.5 rounded-full font-bold text-2xl tracking-wide" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                                <div className="pl-2 pr-2 md:pr-4 mr-1 md:mr-2 border-r border-black/10 dark:border-white/10">
+                                    <div className="bg-transparent hover:bg-transparent text-black dark:text-white px-2 md:px-4 py-1.5 rounded-full font-bold text-xl md:text-2xl tracking-wide" style={{ fontFamily: "'Outfit', sans-serif" }}>
                                         Iris
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Home", theme, t
                                                 }, 200)
                                             }}
                                             className={cn(
-                                                "relative cursor-pointer text-sm font-semibold px-6 py-3 rounded-full transition-all duration-300",
+                                                "relative cursor-pointer text-sm font-semibold px-3 md:px-6 py-3 rounded-full transition-all duration-300",
                                                 "text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white",
                                                 isActive && "text-black dark:text-white"
                                             )}

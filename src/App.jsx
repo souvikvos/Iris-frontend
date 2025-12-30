@@ -66,17 +66,31 @@ function App() {
   }
 
   useEffect(() => {
-    fetchSavedPalettes()
+    try {
+      const saved = localStorage.getItem('postpipe_palettes')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed)) {
+          setSavedPalettes(parsed)
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load palettes from local storage', e)
+    }
     generateRandomPalette()
   }, [])
 
-  const fetchSavedPalettes = async () => {
+  const fetchSavedPalettes = () => {
     try {
-      const response = await fetch('/api/palettes').then(res => res.json())
-      setSavedPalettes(Array.isArray(response) ? response : (response.data || []))
-    } catch (error) {
-      console.error('Error:', error)
-      setSavedPalettes([])
+      const saved = localStorage.getItem('postpipe_palettes')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed)) {
+          setSavedPalettes(parsed)
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load palettes from local storage', e)
     }
   }
 
@@ -156,18 +170,18 @@ function App() {
   const generateRandomPalette = () => {
     // Advanced Semantic Generation with Design System Presets
     const isDark = theme === 'dark';
-    
+
     // Choose a Design System Strategy
     const strategies = ['material', 'chakra', 'modern'];
     const strategyName = strategies[Math.floor(Math.random() * strategies.length)];
-    
+
     let newColors = {};
 
     if (strategyName === 'material') {
       // Material Design 3 Style
       // Key feature: Tonal palettes, surface tinting, vibrancy
       const keyHue = Math.floor(Math.random() * 360);
-      
+
       // Material Primary is usually Tonal 40 (light) or Tonal 80 (dark)
       // but we need a "Main" color. Let's start with a vibrant key.
       const primS = Math.floor(Math.random() * 20) + 60; // 60-80%
@@ -179,7 +193,7 @@ function App() {
       const bgL = isDark ? 10 : 98; // Very dark or very light, but colorful
 
       // Secondary: Analogous or Split, less vibrant
-      const secH = (keyHue + Math.floor(Math.random() * 60) - 30 + 360) % 360; 
+      const secH = (keyHue + Math.floor(Math.random() * 60) - 30 + 360) % 360;
       const secS = Math.floor(Math.random() * 20) + 30; // Muted
       const secL = isDark ? 70 : 50;
 
@@ -204,12 +218,12 @@ function App() {
     } else if (strategyName === 'chakra') {
       // Chakra UI Style
       // Key feature: Accessible standard colors (Blue.500, Red.500), Clean Grays (Cool/Warm)
-      
+
       // Chakra Grays are sophisticated.
       const grayHue = [210, 220, 0, 180][Math.floor(Math.random() * 4)]; // Cool, Blueish, Warm, or Neutral
       const bgS = [0, 5, 10][Math.floor(Math.random() * 3)];
       const bgL = isDark ? 10 : 100; // Chakra often uses pure white in light mode
-      
+
       const txtL = isDark ? 98 : 10; // High contrast
 
       // Functional Colors: Pick from common Chakra families (Red, Blue, Green, Purple, Teal, Orange)
@@ -221,7 +235,7 @@ function App() {
 
       // Secondary: Another Chakra hue
       let secH = chakraHues[Math.floor(Math.random() * chakraHues.length)];
-      while(secH === primH) secH = chakraHues[Math.floor(Math.random() * chakraHues.length)];
+      while (secH === primH) secH = chakraHues[Math.floor(Math.random() * chakraHues.length)];
       const secS = 65;
       const secL = isDark ? 55 : 60;
 
@@ -282,25 +296,22 @@ function App() {
   }
 
   const savePalette = async () => {
-    try {
-      await fetch('/api/palettes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ colors, name: `Palette ${savedPalettes.length + 1}` })
-      }).then(res => res.json())
-      fetchSavedPalettes()
-    } catch (error) {
-      console.error('Error:', error)
+    const newPalette = {
+      id: Date.now(),
+      colors,
+      name: `Palette ${savedPalettes.length + 1}`,
+      createdAt: new Date().toISOString()
     }
+
+    const updatedPalettes = [newPalette, ...savedPalettes]
+    setSavedPalettes(updatedPalettes)
+    localStorage.setItem('postpipe_palettes', JSON.stringify(updatedPalettes))
   }
 
-  const deletePalette = async (id) => {
-    try {
-      await fetch(`/api/palettes/${id}`, { method: 'DELETE' })
-      fetchSavedPalettes()
-    } catch (error) {
-      console.error('Error:', error)
-    }
+  const deletePalette = (id) => {
+    const updatedPalettes = savedPalettes.filter(p => p.id !== id)
+    setSavedPalettes(updatedPalettes)
+    localStorage.setItem('postpipe_palettes', JSON.stringify(updatedPalettes))
   }
 
   // Helper to get array for display from either object or array (legacy support)
@@ -357,7 +368,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground pb-32 transition-colors duration-500">
       <AnimeNavBar items={navItems} defaultActive="Generate" theme={theme} toggleTheme={toggleTheme} />
-      
+
       <div id="home">
         <Hero onGenerate={generateRandomPalette} />
       </div>
@@ -369,13 +380,13 @@ function App() {
       <div id="generator" className="container mx-auto px-4 py-8 min-h-screen flex flex-col justify-center">
         <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Palette Generator</h2>
 
-        <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[80vh] min-h-[600px]">
+        <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[80vh] min-h-[auto] md:min-h-[600px]">
           {/* Left: Palette Sidebar */}
-          <div className="w-full lg:w-1/4 flex flex-row lg:flex-col rounded-3xl overflow-hidden shadow-2xl border border-border shrink-0">
+          <div className="w-full lg:w-1/4 flex flex-row lg:flex-col rounded-3xl overflow-hidden shadow-2xl border border-border shrink-0 min-h-[120px] lg:min-h-0">
             {currentPaletteArray.map((colorObj, index) => {
               const bgVal = typeof colorObj === 'string' ? colorObj : colorObj.value;
               const textColor = getContrastColor(bgVal);
-              
+
               return (
                 <div
                   key={colorObj.key || index}

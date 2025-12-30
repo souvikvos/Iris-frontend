@@ -71,10 +71,10 @@ export const BentoPreview = () => {
                 )}
             </AnimatePresence>
             <div className="w-full h-full p-4 md:p-8 bg-background/50 rounded-3xl overflow-y-auto">
-                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-4 gap-4 h-full min-h-[500px]">
+                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-none md:grid-rows-4 gap-4 h-full md:h-full min-h-[500px]">
 
                     {/* Large Hero Card */}
-                    <div className="col-span-1 md:col-span-2 row-span-2 md:row-span-2 bg-card rounded-3xl p-6 border border-border flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow">
+                    <div className="col-span-1 md:col-span-2 md:row-span-2 bg-card rounded-3xl p-6 border border-border flex flex-col justify-between relative overflow-hidden group hover:shadow-lg transition-shadow min-h-[300px] md:min-h-0">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl -mr-10 -mt-10" />
                         <div>
                             <h3 className="text-3xl font-bold text-card-foreground mb-2">Grow Faster</h3>

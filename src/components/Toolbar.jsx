@@ -24,7 +24,7 @@ export function Toolbar({ colors, onGenerate, onSave, onColorChange }) {
                             <label
                                 htmlFor={`color-${role.key}`}
                                 className={cn(
-                                    "w-24 h-12 md:h-14 rounded-lg cursor-pointer border-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 transition-all flex items-center justify-center relative overflow-hidden shadow-sm",
+                                    "w-16 h-12 md:w-24 md:h-14 rounded-lg cursor-pointer border-2 border-transparent hover:border-slate-300 dark:hover:border-slate-600 transition-all flex items-center justify-center relative overflow-hidden shadow-sm",
                                     "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                                 )}
                                 style={{ backgroundColor: colors[role.key] }}
