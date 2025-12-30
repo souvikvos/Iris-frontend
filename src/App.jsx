@@ -422,17 +422,20 @@ function App() {
               {savedPalettes.map(p => (
                 <div key={p.id} className="bg-card border border-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex h-16 rounded-md overflow-hidden mb-4 cursor-pointer" onClick={() => {
+                    let selectedColors;
                     if (!Array.isArray(p.colors)) {
-                      setColors(p.colors);
+                      selectedColors = p.colors;
                     } else {
-                      setColors({
+                      selectedColors = {
                         text: p.colors[0],
                         background: p.colors[1],
                         primary: p.colors[2],
                         secondary: p.colors[3],
                         accent: p.colors[4],
-                      })
+                      };
                     }
+                    setColors(selectedColors);
+                    applyTheme(selectedColors);
                     document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
                   }}>
                     {(Array.isArray(p.colors) ? p.colors : [p.colors.text, p.colors.background, p.colors.primary, p.colors.secondary, p.colors.accent]).map((color, i) => (
