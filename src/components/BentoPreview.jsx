@@ -125,15 +125,15 @@ export const BentoPreview = () => {
                     </div>
 
                     {/* Bottom Wide CTA */}
-                    <div className="col-span-1 md:col-span-4 bg-foreground text-background rounded-3xl p-6 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="p-3 bg-background/10 rounded-full"><Mail className="w-6 h-6" /></div>
+                    <div className="col-span-1 md:col-span-4 bg-foreground text-background rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
+                        <div className="flex items-center gap-4 w-full md:w-auto">
+                            <div className="p-3 bg-background/10 rounded-full shrink-0"><Mail className="w-6 h-6" /></div>
                             <div>
                                 <h4 className="font-bold">Newsletter</h4>
-                                <p className="text-sm opacity-70 hidden md:block">Stay updated with the latest trends.</p>
+                                <p className="text-sm opacity-70 block md:hidden lg:block">Stay updated with the latest trends.</p>
                             </div>
                         </div>
-                        <form onSubmit={handleSubscribe} className="flex gap-2 w-full max-w-xs md:max-w-md relative">
+                        <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:max-w-md relative">
                             <input
                                 name="Email Address"
                                 type="email"

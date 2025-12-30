@@ -13,25 +13,10 @@ import { motion } from 'framer-motion';
 export function MinimalFooter() {
     const year = new Date().getFullYear();
 
-    const company = [
-        { title: 'About Us', href: '#home' },
-        { title: 'Careers', href: '#home' },
-        { title: 'Brand assets', href: '#generator' },
-        { title: 'Privacy Policy', href: '#features' },
-        { title: 'Terms of Service', href: '#features' },
-    ];
-
-    const resources = [
-        { title: 'Blog', href: '#home' },
-        { title: 'Help Center', href: '#features' },
-        { title: 'Contact Support', href: '#feedback' },
-        { title: 'Community', href: '#saved' },
-        { title: 'Security', href: '#features' },
-    ];
+    // Removed unnecessary link arrays as per user request
 
     const socialLinks = [
         { icon: <Github className="w-4 h-4" />, link: 'https://github.com/Sourodip-1', label: 'Github' },
-        { icon: <Twitter className="w-4 h-4" />, link: 'https://x.com/sshahaider', label: 'Twitter' },
     ];
 
     const containerVariants = {
@@ -97,35 +82,24 @@ export function MinimalFooter() {
                         </div>
                     </motion.div>
 
-                    {/* Links Sections */}
-                    <div className="col-span-1 md:col-span-7 grid grid-cols-2 gap-8 md:pl-12">
+                    {/* Contact Section */}
+                    <div className="col-span-1 md:col-span-7 flex flex-col justify-center items-start md:items-end md:pl-12">
                         <motion.div variants={itemVariants} className="flex flex-col gap-4">
-                            <h4 className="text-sm font-bold tracking-widest text-primary uppercase">Resources</h4>
-                            <div className="flex flex-col gap-2">
-                                {resources.map(({ href, title }, i) => (
-                                    <a
-                                        key={i}
-                                        className="w-max text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-200"
-                                        href={href}
-                                    >
-                                        {title}
-                                    </a>
-                                ))}
-                            </div>
-                        </motion.div>
-                        <motion.div variants={itemVariants} className="flex flex-col gap-4">
-                            <h4 className="text-sm font-bold tracking-widest text-primary uppercase">Company</h4>
-                            <div className="flex flex-col gap-2">
-                                {company.map(({ href, title }, i) => (
-                                    <a
-                                        key={i}
-                                        className="w-max text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all duration-200"
-                                        href={href}
-                                    >
-                                        {title}
-                                    </a>
-                                ))}
-                            </div>
+                            <h4 className="text-sm font-bold tracking-widest text-primary uppercase mb-2">Get in Touch</h4>
+                            <a
+                                href="#feedback"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const element = document.querySelector('#feedback');
+                                    if (element) {
+                                        element.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                                className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 duration-200 cursor-pointer flex items-center gap-2"
+                            >
+                                Contact Us
+                                <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">→</span>
+                            </a>
                         </motion.div>
                     </div>
                 </div>
